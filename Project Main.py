@@ -71,13 +71,14 @@ def login():
     credentials = open("cardNumber.txt", "r")
     cardNumberLogIn = input("Please enter your card number: \n")
     valid = False
+    test = credentials.readlines()[0]
     while not valid:
-        if (credentials.readline(1)) == cardNumberLogIn:
+        if test == str(cardNumberLogIn + "\n"):
             valid = True
             print("valid")
         else:
             print("invalid")
-            print(credentials.readline(1))
+            print(test)
             cardNumberLogIn = input("Please enter your card number: \n")
     print("abc")
 
