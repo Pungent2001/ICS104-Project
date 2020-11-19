@@ -5,6 +5,7 @@ def main():
         if option.upper() == "L":
             valid = True
             print("Log-in")
+            login()
             # Log-in Function
         elif option.upper() == "S":
             valid = True
@@ -63,11 +64,25 @@ def create():
             valid = False
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
-    login()
+    #login() *****REMOVE THE HASHTAG AFTER IMPLEMENTING THE FUNCTION*****
 
+def validateCard(userInput):
+    # Validates user input when reading inputs
+    logInfo = open("cardNumber.txt", "r")
+    valid = False
+    while not valid:
+        if userInput == logInfo.readline(1):
+            print("CORRECT!")
+            valid = True
+        else:
+            print("WRONG, TRY AGAIN!")
+            print(logInfo.readline(1))
+            userInput = input("Please enter your card number: ")
+    return valid
 
 def login():
-    print("##########replace this line with your code##########")
-
+    # Uses user input to log-in
+    cardNumberLogIn = input("Please enter your card number: ")
+    validateCard(cardNumberLogIn)
 
 main()
