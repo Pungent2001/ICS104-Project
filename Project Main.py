@@ -4,7 +4,6 @@ def main():
     while not valid:
         if option.upper() == "L":
             valid = True
-            print("Log-in")
             login()
             # Log-in Function
         elif option.upper() == "S":
@@ -38,7 +37,6 @@ def create():
             credentials.write(cardNumber)
             print("valid")
         else:
-            valid = False
             print("Invalid Input, please enter 4 unique numbers")
     # Function to enter pin to card
     valid = False
@@ -48,7 +46,6 @@ def create():
             valid = True
             credentials.write("\n" + pinNumber)
         else:
-            valid = False
             print("Invalid Input, please enter 4 unique numbers")
     # Function to take email
     valid = False
@@ -58,27 +55,32 @@ def create():
             valid = True
             credentials.write("\n" + email)
         else:
-            print(email[0:3])
-            print(email[3:10])
-            print(email[10:23])
-            valid = False
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
 
 
 def login():
-    # Uses user input to log-in
+    # validates user card to log in
     credentials = open("cardNumber.txt", "r")
-    cardNumberLogIn = input("Please enter your card number: \n")
     valid = False
     cardNum = credentials.readlines()[0]
     while not valid:
+        cardNumberLogIn = input("Please enter your card number: \n")
         if cardNum == str(cardNumberLogIn + "\n"):
             valid = True
         else:
             print("Incorrect Credentials, please try again")
-            cardNumberLogIn = input("Please enter your card number: \n")
+    # validates user pin to log in
     print("Correct Card number")
+    valid = False
+    pinNum = credentials.readlines()[1]
+    while not valid:
+        pinNumberLogIn = input("Please enter your PIN number: \n")
+        if pinNum == str(pinNumberLogIn + "\n"):
+            valid = True
+        else:
+            print("Incorrect Credentials, please try again")
+    print("Correct PIN")
 
 
 main()
