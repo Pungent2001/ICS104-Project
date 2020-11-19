@@ -70,7 +70,9 @@ def login():
             valid = True
         else:
             print("Incorrect Credentials, please try again")
+    credentials.close()
     # validates user pin to log in
+    credentials = open("cardNumber.txt", "r") # *** NOTE: REOPENED THE FILE TO FIX THE RANGE ERROR ***
     print("Correct Card number")
     valid = False
     pinNum = credentials.readlines()[1]
