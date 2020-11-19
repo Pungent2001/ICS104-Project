@@ -50,6 +50,24 @@ def create():
             valid = False
             print("Invalid Input, please enter 4 unique numbers")
     # Function to take email
+    valid = False
+    while not valid:
+        email = input("Please enter your email address: ")
+        if email[0:3] == "g20" and email[3:10].isdigit() and email[10:23] == "@kfupm.edu.sa":
+            valid = True
+            credentials.write("\n" + email)
+        else:
+            print(email[0:3])
+            print(email[3:10])
+            print(email[10:23])
+            valid = False
+            print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
+    print("Account successfully created!\n")
+    login()
+
+
+def login():
+    print("##########replace this line with your code##########")
 
 
 main()
