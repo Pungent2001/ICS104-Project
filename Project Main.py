@@ -27,20 +27,29 @@ def notSame(number):
 
 def create():
     # Function to make the user sign-up
+    # Function to enter card number
     valid = False
-    cardNum = open("cardNumber.txt", "w")
+    credentials = open("cardNumber.txt", "w")
     while not valid:
         cardNumber = input("Please Enter a card number with 4 unique numbers\n")
         if notSame(cardNumber):
             valid = True
-            cardNum.write(cardNumber)
+            credentials.write(cardNumber)
             print("valid")
         else:
             valid = False
             print("Invalid Input, please enter 4 unique numbers")
-    cardNum.close()
-    
-
+    # Function to enter pin to card
+    valid = False
+    while not valid:
+        pinNumber = input("Please Enter a pin number with 4 unique numbers\n")
+        if notSame(pinNumber):
+            valid = True
+            credentials.write("\n" + pinNumber)
+        else:
+            valid = False
+            print("Invalid Input, please enter 4 unique numbers")
+    # Function to take email
 
 
 main()
