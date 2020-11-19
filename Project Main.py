@@ -64,25 +64,22 @@ def create():
             valid = False
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
-    #login() *****REMOVE THE HASHTAG AFTER IMPLEMENTING THE FUNCTION*****
 
-def validateCard(userInput):
-    # Validates user input when reading inputs
-    logInfo = open("cardNumber.txt", "r")
-    valid = False
-    while not valid:
-        if userInput == logInfo.readline(1):
-            print("CORRECT!")
-            valid = True
-        else:
-            print("WRONG, TRY AGAIN!")
-            print(logInfo.readline(1))
-            userInput = input("Please enter your card number: ")
-    return valid
 
 def login():
     # Uses user input to log-in
-    cardNumberLogIn = input("Please enter your card number: ")
-    validateCard(cardNumberLogIn)
+    credentials = open("cardNumber.txt", "r")
+    cardNumberLogIn = input("Please enter your card number: \n")
+    valid = False
+    while not valid:
+        if (credentials.readline(1)) == cardNumberLogIn:
+            valid = True
+            print("valid")
+        else:
+            print("invalid")
+            print(credentials.readline(1))
+            cardNumberLogIn = input("Please enter your card number: \n")
+    print("abc")
+
 
 main()
