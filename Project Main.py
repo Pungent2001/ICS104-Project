@@ -65,31 +65,20 @@ def create():
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
 
-# dummy
 
 def login():
     # Uses user input to log-in
     credentials = open("cardNumber.txt", "r")
     cardNumberLogIn = input("Please enter your card number: \n")
     valid = False
-    test = credentials.readlines()[0]
+    cardNum = credentials.readlines()[0]
     while not valid:
-<<<<<<< Updated upstream
-        if test == str(cardNumberLogIn + "\n"):
-=======
-        if (credentials.readlines())[0] == cardNumberLogIn:
->>>>>>> Stashed changes
+        if cardNum == str(cardNumberLogIn + "\n"):
             valid = True
-            print("valid")
         else:
-            print("invalid")
-<<<<<<< Updated upstream
-            print(test)
-=======
-            print((credentials.readline())[0])
->>>>>>> Stashed changes
+            print("Incorrect Credentials, please try again")
             cardNumberLogIn = input("Please enter your card number: \n")
-    print("read!!")
+    print("Correct Card number")
 
 
 main()
