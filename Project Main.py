@@ -73,14 +73,22 @@ def login():
     valid = False
     test = credentials.readlines()[0]
     while not valid:
+<<<<<<< Updated upstream
         if test == str(cardNumberLogIn + "\n"):
+=======
+        if (credentials.readlines())[0] == cardNumberLogIn:
+>>>>>>> Stashed changes
             valid = True
             print("valid")
         else:
             print("invalid")
+<<<<<<< Updated upstream
             print(test)
+=======
+            print((credentials.readline())[0])
+>>>>>>> Stashed changes
             cardNumberLogIn = input("Please enter your card number: \n")
-    print("abc")
+    print("read!!")
 
 
 main()
