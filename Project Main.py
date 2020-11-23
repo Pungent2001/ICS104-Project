@@ -1,3 +1,5 @@
+import time # DO NOT REMOVE OR "show()" WILL BREAK
+
 def main():
     option = input("Please Select your option.\n(S) for sign up\n(L) for log in\n")
     valid = False
@@ -86,10 +88,23 @@ def login():
 
 def show(file):
     credentials = open(file, "r")
-    print("Account info:")
-    for line in file: # For loop to print every line from the file
-        print(credentials.readline(), end="")
+    print("Account info:\n")
+    lineNum = 1 # This is a line counter
+    for line in credentials:
+        line.rstrip()
+        if lineNum == 1: # If line number equals 1
+            print("Card number:", line)
+        elif lineNum == 2: # If line number equals 2
+            print("PIN number:", line)
+        else: # line 3 is the last line so there's no need to put an "elif"
+            print("Email:", line)
+        lineNum += 1
     credentials.close()
+
+    time.sleep(2) # Waits 2 seconds
+    print("\nDONE!")
+
+    # show isn't done yet!
 
 #main()
 show("cardNumber.txt") # Run the code to test the function
