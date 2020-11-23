@@ -84,5 +84,12 @@ def login():
             print("Incorrect Credentials, please try again")
     print("Correct PIN")
 
+def show(file):
+    credentials = open(file, "r")
+    print("Account info:")
+    for line in file: # For loop to print every line from the file
+        print(credentials.readline(), end="")
+    credentials.close()
 
-main()
+#main()
+show("cardNumber.txt") # Run the code to test the function
