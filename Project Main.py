@@ -102,9 +102,20 @@ def show(file):
     credentials.close()
 
     time.sleep(2) # Waits 2 seconds
-    print("\nDONE!")
+    menu()
 
-    # show isn't done yet!
+def menu(): # NOT DONE YET
+    print("\nBank Account Program")
+    print("=================================")
+    print("1. Show account information")
+    print("2. Change PIN number")
+    print("3. Withdraw amount of money")
+    print("4. Deposit amount of money")
+    print("5. Pay bills")
+    print("6. View the last transactions")
+    print("7. Terminate a program")
+    print("=================================")
+    # Insert code here!
 
 #main()
 show("cardNumber.txt") # Run the code to test the function
