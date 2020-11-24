@@ -100,7 +100,6 @@ def show(file):
             print("Email:", line)
         lineNum += 1
     credentials.close()
-
     time.sleep(2) # Waits 2 seconds
     menu()
 
@@ -115,7 +114,35 @@ def menu(): # NOT DONE YET
     print("6. View the last transactions")
     print("7. Terminate a program")
     print("=================================")
-    # Insert code here!
+
+    userInput = input("Enter your feature: ")
+    valid = False
+    while not valid:
+        if userInput.isdigit(): # Checks if user input is a digit
+            userInput = userInput # converts it to an intger
+            valid = True
+            if userInput == "1":
+                show("cardNumber.txt")
+            elif userInput == "2":
+                print("INSERT CODE HERE") # INSERT CODE HERE!
+            elif userInput == "3":
+                print("INSERT CODE HERE")  # INSERT CODE HERE!
+            elif userInput == "4":
+                print("INSERT CODE HERE")  # INSERT CODE HERE!
+            elif userInput == "5":
+                print("INSERT CODE HERE")  # INSERT CODE HERE!
+            elif userInput == "6":
+                print("INSERT CODE HERE")  # INSERT CODE HERE!
+            elif userInput == "7":
+                print("INSERT CODE HERE")  # INSERT CODE HERE!
+            else:
+                print("Incorrect input! Try again.")
+                userInput = input("Enter your feature: ")
+        else:
+            print("Incorrect input! Try again.")
+            userInput = input("Enter your feature: ")
+
+
 
 #main()
 show("cardNumber.txt") # Run the code to test the function
