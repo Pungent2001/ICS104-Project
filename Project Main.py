@@ -7,6 +7,7 @@ def main():
         if option.upper() == "L":
             valid = True
             login()
+            menu()
             # Log-in Function
         elif option.upper() == "S":
             valid = True
@@ -85,10 +86,11 @@ def login():
         else:
             print("Incorrect Credentials, please try again")
     print("Correct PIN")
+    return (cardNum, pinNum) # returns the card number and the PIN number
 
 def show(file):
     credentials = open(file, "r")
-    print("Account info:\n")
+    print("\nAccount info:\n")
     lineNum = 1 # This is a line counter
     for line in credentials:
         line.rstrip()
@@ -119,12 +121,14 @@ def menu(): # NOT DONE YET
     valid = False
     while not valid:
         if userInput.isdigit(): # Checks if user input is a digit
-            userInput = userInput # converts it to an intger
             valid = True
             if userInput == "1":
                 show("cardNumber.txt")
+
             elif userInput == "2":
-                print("INSERT CODE HERE") # INSERT CODE HERE!
+                cardNum, pinNum = login() # Gets these two values from the login function. If you look at the two return values, you will hopefully understand
+                changePINFun(pinNum, cardNum, "cardNumber.txt")
+
             elif userInput == "3":
                 print("INSERT CODE HERE")  # INSERT CODE HERE!
             elif userInput == "4":
@@ -142,7 +146,21 @@ def menu(): # NOT DONE YET
             print("Incorrect input! Try again.")
             userInput = input("Enter your feature: ")
 
+def changePINFun(currentPIN, cardNumber, file):
+    credentials = open(file, "r")
+    valid = False
+    while not valid:
+        newPin = input("Please enter your new PIN number with 4 unique numbers (Press enter to cancel): ")
+        if newPin == "": # If the user pressed enter then it will redirect them back to the menu after 2 seconds
+            valid = True
+            time.sleep(2) # Waits 2 seconds
+            menu()
+        elif notSame(newPin): # validates the new PIN
+            valid = True
+            print("SUCCESS!")
+            # Insert a code that replaces the old PIN with the new PIN here
+        else:
+            print("Invalid Input, please enter 4 unique numbers")
 
 
-#main()
-show("cardNumber.txt") # Run the code to test the function
+main()
