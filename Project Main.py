@@ -139,7 +139,13 @@ def menu():  # NOT DONE YET
             elif userInput == "3":
                 print("INSERT CODE HERE")  # INSERT CODE HERE!
             elif userInput == "4":
-                print("INSERT CODE HERE")  # INSERT CODE HERE!
+                credentialRead = open("cardNumber.txt", "r")
+                cardNumber = credentialRead.readline()
+                currentPIN = credentialRead.readline()
+                credentialRead.close()
+                nMoney = input("Enter amount: ")
+                depositFun(nMoney, cardNumber, "cardNumber.txt")
+
             elif userInput == "5":
                 print("INSERT CODE HERE")  # INSERT CODE HERE!
             elif userInput == "6":
@@ -174,6 +180,27 @@ def changePINFun(currentPIN, cardNumber, file):
             valid = True
         else:
             print("Invalid Input, please enter 4 unique numbers")
+    time.sleep(2)
+    menu()
+
+
+def depositFun(nMoney, cardNumber, file):
+    credentialRead = open("cardNumber.txt", "r")
+    pinNum = ""
+    for x in range(2):
+        pinNum = credentialRead.readline()
+    email = credentialRead.readline()
+    balance = credentialRead.readline()
+    balance.rstrip()
+    balance = int(balance)  # Switches from a string to an integer
+    balance += int(nMoney)  # Adds the amount to the current balance
+    credentialRead.close()
+    credentials = open(file, "w")
+    credentials.write(cardNumber)
+    credentials.write(pinNum)
+    credentials.write(email)
+    credentials.write(str(balance))  # Switches balance back to a string in order to write it to the file
+    credentials.close()
     time.sleep(2)
     menu()
 
