@@ -60,6 +60,7 @@ def create():
         else:
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
+    credentials.close()
     menu()
 
 
@@ -89,6 +90,7 @@ def login():
     print("Correct PIN")
     return (cardNum, pinNum) # returns the card number and the PIN number
 
+
 def show(file):
     credentials = open(file, "r")
     print("\nAccount info:\n")
@@ -103,10 +105,11 @@ def show(file):
             print("Email:", line)
         lineNum += 1
     credentials.close()
-    time.sleep(2) # Waits 2 seconds
+    time.sleep(2)  # Waits 2 seconds
     menu()
 
-def menu(): # NOT DONE YET
+
+def menu():  # NOT DONE YET
     print("\nBank Account Program")
     print("=================================")
     print("1. Show account information")
@@ -146,6 +149,7 @@ def menu(): # NOT DONE YET
         else:
             print("Incorrect input! Try again.")
             userInput = input("Enter your feature: ")
+
 
 def changePINFun(currentPIN, cardNumber, file):
     credentials = open(file, "r")
