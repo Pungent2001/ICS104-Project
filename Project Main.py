@@ -60,6 +60,7 @@ def create():
         else:
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
     print("Account successfully created!\n")
+    menu()
 
 
 def login():
@@ -158,6 +159,13 @@ def changePINFun(currentPIN, cardNumber, file):
         elif notSame(newPin): # validates the new PIN
             valid = True
             print("SUCCESS!")
+            overwriteLine = ""
+            for line in credentials:
+                overwriteLine += line
+            overwriteLine = overwriteLine.replace(currentPIN, newPin + "\n")
+            credentials.close()
+            credentials = open(file, "w")
+            credentials.write(overwriteLine)
             # Insert a code that replaces the old PIN with the new PIN here
         else:
             print("Invalid Input, please enter 4 unique numbers")
