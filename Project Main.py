@@ -1,4 +1,5 @@
-import time # DO NOT REMOVE OR "show()" WILL BREAK
+import time  # DO NOT REMOVE OR "show()" WILL BREAK
+
 
 def main():
     option = input("Please Select your option.\n(S) for sign up\n(L) for log in\n")
@@ -23,7 +24,9 @@ def main():
 def notSame(number):
     # Function to verify all 4 numbers entered by user are unique
     valid = False
-    if (number[0] != number[1]) and (number[1] != number[2]) and (number[2] != number[3]) and (number[3] != number[0]) and (number[0] != number[2]) and (number[1] != number[3]) and number.isdigit() and (len(number) == 4):
+    if (number[0] != number[1]) and (number[1] != number[2]) and (number[2] != number[3]) and (
+            number[3] != number[0]) and (number[0] != number[2]) and (number[1] != number[3]) and number.isdigit() and (
+            len(number) == 4):
         valid = True
     return valid
 
@@ -53,12 +56,13 @@ def create():
     # Function to take email
     valid = False
     while not valid:
-        email = input("Please enter your email address: ")
+        email = input("Please enter your email address: \n")
         if email[0:3] == "g20" and email[3:10].isdigit() and email[10:23] == "@kfupm.edu.sa":
             valid = True
             credentials.write("\n" + email)
         else:
             print("Invalid Input, please enter an email with this format:(g20XXXXXXX@kfupm.edu.sa)")
+    credentials.write("\n0")
     print("Account successfully created!\n")
     credentials.close()
     menu()
@@ -77,7 +81,7 @@ def login():
             print("Incorrect Credentials, please try again")
     credentials.close()
     # validates user pin to log in
-    credentials = open("cardNumber.txt", "r") # *** NOTE: REOPENED THE FILE TO FIX THE RANGE ERROR ***
+    credentials = open("cardNumber.txt", "r")  # *** NOTE: REOPENED THE FILE TO FIX THE RANGE ERROR ***
     print("Correct Card number")
     valid = False
     pinNum = credentials.readlines()[1]
@@ -88,22 +92,16 @@ def login():
         else:
             print("Incorrect Credentials, please try again")
     print("Correct PIN")
-    return (cardNum, pinNum) # returns the card number and the PIN number
+    return cardNum, pinNum  # returns the card number and the PIN number
 
 
 def show(file):
     credentials = open(file, "r")
     print("\nAccount info:\n")
-    lineNum = 1 # This is a line counter
-    for line in credentials:
-        line.rstrip()
-        if lineNum == 1: # If line number equals 1
-            print("Card number:", line)
-        elif lineNum == 2: # If line number equals 2
-            print("PIN number:", line)
-        else: # line 3 is the last line so there's no need to put an "elif"
-            print("Email:", line)
-        lineNum += 1
+    print("Card Number: " + credentials.readline())
+    print("PIN number: " + credentials.readline())
+    print("Email Address: " + credentials.readline())
+    print("Current Balance: " + credentials.readline())
     credentials.close()
     time.sleep(2)  # Waits 2 seconds
     menu()
@@ -124,14 +122,19 @@ def menu():  # NOT DONE YET
     userInput = input("Enter your feature: ")
     valid = False
     while not valid:
-        if userInput.isdigit(): # Checks if user input is a digit
+        if userInput.isdigit():  # Checks if user input is a digit
             valid = True
             if userInput == "1":
                 show("cardNumber.txt")
-
             elif userInput == "2":
-                cardNum, pinNum = login() # Gets these two values from the login function. If you look at the two return values, you will hopefully understand
-                changePINFun(pinNum, cardNum, "cardNumber.txt")
+                #  cardNum, pinNum = login()  # Gets these two values from the login function. If you look at the two
+                # return values, you will hopefully understand
+                #  changePINFun(pinNum, cardNum, "cardNumber.txt")
+                credentialRead = open("cardNumber.txt", "r")
+                cardNumber = credentialRead.readline()
+                currentPIN = credentialRead.readline()
+                credentialRead.close()
+                changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
             elif userInput == "3":
                 print("INSERT CODE HERE")  # INSERT CODE HERE!
@@ -142,7 +145,7 @@ def menu():  # NOT DONE YET
             elif userInput == "6":
                 print("INSERT CODE HERE")  # INSERT CODE HERE!
             elif userInput == "7":
-                print("INSERT CODE HERE")  # INSERT CODE HERE!
+                print("Thank you, come again!")
             else:
                 print("Incorrect input! Try again.")
                 userInput = input("Enter your feature: ")
@@ -152,27 +155,27 @@ def menu():  # NOT DONE YET
 
 
 def changePINFun(currentPIN, cardNumber, file):
-    credentials = open(file, "r")
     valid = False
     while not valid:
-        newPin = input("Please enter your new PIN number with 4 unique numbers (Press enter to cancel): ")
-        if newPin == "": # If the user pressed enter then it will redirect them back to the menu after 2 seconds
-            valid = True
-            time.sleep(2) # Waits 2 seconds
-            menu()
-        elif notSame(newPin): # validates the new PIN
-            valid = True
-            print("SUCCESS!")
-            overwriteLine = ""
-            for line in credentials:
-                overwriteLine += line
-            overwriteLine = overwriteLine.replace(currentPIN, newPin + "\n")
-            credentials.close()
+        newPIN = input("Enter the new pin:\n")
+        if notSame(newPIN):
+            credentialRead = open("cardNumber.txt", "r")
+            email = ""
+            for i in range(3):
+                email = credentialRead.readline()
+            balance = credentialRead.readline()
+            credentialRead.close()
             credentials = open(file, "w")
-            credentials.write(overwriteLine)
-            # Insert a code that replaces the old PIN with the new PIN here
+            credentials.write(cardNumber)
+            credentials.write(newPIN + "\n")
+            credentials.write(email)
+            credentials.write(balance)
+            credentials.close()
+            valid = True
         else:
             print("Invalid Input, please enter 4 unique numbers")
+    time.sleep(2)
+    menu()
 
 
 main()
