@@ -126,6 +126,7 @@ def menu():  # NOT DONE YET
             valid = True
             if userInput == "1":
                 show("cardNumber.txt")
+
             elif userInput == "2":
                 #  cardNum, pinNum = login()  # Gets these two values from the login function. If you look at the two
                 # return values, you will hopefully understand
@@ -137,11 +138,15 @@ def menu():  # NOT DONE YET
                 changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
             elif userInput == "3":
-                print("INSERT CODE HERE")  # INSERT CODE HERE!
+                credentialRead = open("cardNumber.txt", "r")
+                cardNumber = credentialRead.readline()
+                credentialRead.close()
+                money = input("Enter amount: ")
+                withdrawFun(money, cardNumber, "cardNumber.txt")
+
             elif userInput == "4":
                 credentialRead = open("cardNumber.txt", "r")
                 cardNumber = credentialRead.readline()
-                currentPIN = credentialRead.readline()
                 credentialRead.close()
                 nMoney = input("Enter amount: ")
                 depositFun(nMoney, cardNumber, "cardNumber.txt")
@@ -168,8 +173,8 @@ def changePINFun(currentPIN, cardNumber, file):
             credentialRead = open("cardNumber.txt", "r")
             email = ""
             for i in range(3):
-                email = credentialRead.readline()
-            balance = credentialRead.readline()
+                email = credentialRead.readline()  # Reads line number 3
+            balance = credentialRead.readline()  # Reads line number 4
             credentialRead.close()
             credentials = open(file, "w")
             credentials.write(cardNumber)
@@ -185,24 +190,51 @@ def changePINFun(currentPIN, cardNumber, file):
 
 
 def depositFun(nMoney, cardNumber, file):
-    credentialRead = open("cardNumber.txt", "r")
+    credentialRead = open(file, "r")
     pinNum = ""
     for x in range(2):
         pinNum = credentialRead.readline()
     email = credentialRead.readline()
     balance = credentialRead.readline()
     balance.rstrip()
-    balance = int(balance)  # Switches from a string to an integer
-    balance += int(nMoney)  # Adds the amount to the current balance
+    balance = float(balance)  # Switches from a string to a float
+    balance += float(nMoney)  # Adds the amount to the current balance
     credentialRead.close()
     credentials = open(file, "w")
     credentials.write(cardNumber)
     credentials.write(pinNum)
     credentials.write(email)
-    credentials.write(str(balance))  # Switches balance back to a string in order to write it to the file
+    credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
     credentials.close()
     time.sleep(2)
     menu()
 
+
+def withdrawFun(money, cardNumber, file):
+    credentialRead = open(file, "r")
+    pinNum = ""
+    for x in range(2):
+        pinNum = credentialRead.readline()
+    email = credentialRead.readline()
+    balance = credentialRead.readline()
+    balance.rstrip()
+    balance = float(balance)  # Switches from a string to a float
+    valid = False
+    while not valid:
+        if float(money) > balance:  # Checks if the withdraw amount is higher than the current balance
+            print("Your balance is too low to withdraw that amount\n")
+            money = input("Enter amount: ")
+        else:
+            balance -= float(money)  # Withdraws from the current balance
+            valid = True
+    credentialRead.close()
+    credentials = open(file, "w")
+    credentials.write(cardNumber)
+    credentials.write(pinNum)
+    credentials.write(email)
+    credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
+    credentials.close()
+    time.sleep(2)
+    menu()
 
 main()
