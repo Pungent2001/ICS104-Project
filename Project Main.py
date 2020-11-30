@@ -119,50 +119,42 @@ def menu():  # NOT DONE YET
     print("7. Terminate a program")
     print("=================================")
 
-    userInput = input("Enter your feature: ")
     valid = False
     while not valid:
-        if userInput.isdigit():  # Checks if user input is a digit
-            valid = True
-            if userInput == "1":
-                show("cardNumber.txt")
+        userInput = input("Enter your feature: ")
+        if userInput == "1":
+            show("cardNumber.txt")
 
-            elif userInput == "2":
-                #  cardNum, pinNum = login()  # Gets these two values from the login function. If you look at the two
-                # return values, you will hopefully understand
-                #  changePINFun(pinNum, cardNum, "cardNumber.txt")
-                credentialRead = open("cardNumber.txt", "r")
-                cardNumber = credentialRead.readline()
-                currentPIN = credentialRead.readline()
-                credentialRead.close()
-                changePINFun(currentPIN, cardNumber, "cardNumber.txt")
+        elif userInput == "2":
+            credentialRead = open("cardNumber.txt", "r")
+            cardNumber = credentialRead.readline()
+            currentPIN = credentialRead.readline()
+            credentialRead.close()
+            changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
-            elif userInput == "3":
-                credentialRead = open("cardNumber.txt", "r")
-                cardNumber = credentialRead.readline()
-                credentialRead.close()
-                money = input("Enter amount: ")
-                withdrawFun(money, cardNumber, "cardNumber.txt")
+        elif userInput == "3":
+            credentialRead = open("cardNumber.txt", "r")
+            cardNumber = credentialRead.readline()
+            credentialRead.close()
+            money = input("Enter amount: ")
+            withdrawFun(money, cardNumber, "cardNumber.txt")
 
-            elif userInput == "4":
-                credentialRead = open("cardNumber.txt", "r")
-                cardNumber = credentialRead.readline()
-                credentialRead.close()
-                nMoney = input("Enter amount: ")
-                depositFun(nMoney, cardNumber, "cardNumber.txt")
+        elif userInput == "4":
+            credentialRead = open("cardNumber.txt", "r")
+            cardNumber = credentialRead.readline()
+            credentialRead.close()
+            nMoney = input("Enter amount: ")
+            depositFun(nMoney, cardNumber, "cardNumber.txt")
 
-            elif userInput == "5":
-                print("INSERT CODE HERE")  # INSERT CODE HERE!
-            elif userInput == "6":
-                print("INSERT CODE HERE")  # INSERT CODE HERE!
-            elif userInput == "7":
-                print("Thank you, come again!")
-            else:
-                print("Incorrect input! Try again.")
-                userInput = input("Enter your feature: ")
+        elif userInput == "5":
+            print("INSERT CODE HERE")  # INSERT CODE HERE!
+        elif userInput == "6":
+            print("INSERT CODE HERE")  # INSERT CODE HERE!
+        elif userInput == "7":
+            print("Thank you, come again!")
         else:
             print("Incorrect input! Try again.")
-            userInput = input("Enter your feature: ")
+
 
 
 def changePINFun(currentPIN, cardNumber, file):
