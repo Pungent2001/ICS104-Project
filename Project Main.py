@@ -123,36 +123,37 @@ def menu():  # NOT DONE YET
     while not valid:
         userInput = input("Enter your feature: ")
         if userInput == "1":
-            show("cardNumber.txt")
+            show("cardNumber.txt")  # 1. Show account information
 
-        elif userInput == "2":
+        elif userInput == "2":  # 2. Change PIN number
             credentialRead = open("cardNumber.txt", "r")
             cardNumber = credentialRead.readline()
             currentPIN = credentialRead.readline()
             credentialRead.close()
             changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
-        elif userInput == "3":
+        elif userInput == "3":  # 3. Withdraw amount of money
             credentialRead = open("cardNumber.txt", "r")
             cardNumber = credentialRead.readline()
             credentialRead.close()
             money = input("Enter amount: ")
             withdrawFun(money, cardNumber, "cardNumber.txt")
 
-        elif userInput == "4":
+        elif userInput == "4":  # 4. Deposit amount of money
             credentialRead = open("cardNumber.txt", "r")
             cardNumber = credentialRead.readline()
             credentialRead.close()
             nMoney = input("Enter amount: ")
             depositFun(nMoney, cardNumber, "cardNumber.txt")
 
-        elif userInput == "5":
+        elif userInput == "5":  # 5. Pay bills
             print("INSERT CODE HERE")  # INSERT CODE HERE!
-        elif userInput == "6":
+        elif userInput == "6":  # 6. View the last transactions
             print("INSERT CODE HERE")  # INSERT CODE HERE!
-        elif userInput == "7":
+        elif userInput == "7":  # 7. Terminate a program
             print("Thank you, come again!")
-        else:
+            valid = True
+        else:  # invalid input
             print("Incorrect input! Try again.")
 
 
