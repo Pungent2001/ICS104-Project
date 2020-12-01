@@ -23,11 +23,12 @@ def main():
 
 def notSame(number):
     # Function to verify all 4 numbers entered by user are unique
-    valid = False
-    if (number[0] != number[1]) and (number[1] != number[2]) and (number[2] != number[3]) and (
-            number[3] != number[0]) and (number[0] != number[2]) and (number[1] != number[3]) and number.isdigit() and (
-            len(number) == 4):
-        valid = True
+    if len(number) == 4:
+        valid = False
+        if (number[0] != number[1]) and (number[1] != number[2]) and (number[2] != number[3]) and (number[3] != number[0]) and (number[0] != number[2]) and (number[1] != number[3]) and number.isdigit() and (len(number) == 4):
+            valid = True
+    else:
+        valid = False
     return valid
 
 
@@ -118,7 +119,12 @@ def menu():  # NOT DONE YET
     print("6. View the last transactions")
     print("7. Terminate a program")
     print("=================================")
-
+    credentialRead = open("cardNumber.txt", "r")
+    cardNumber = credentialRead.readline()
+    currentPIN = credentialRead.readline()
+    email = credentialRead.readline()
+    balance = credentialRead.readline()
+    credentialRead.close()
     valid = False
     while not valid:
         userInput = input("Enter your feature: ")
@@ -126,36 +132,29 @@ def menu():  # NOT DONE YET
             show("cardNumber.txt")  # 1. Show account information
 
         elif userInput == "2":  # 2. Change PIN number
-            credentialRead = open("cardNumber.txt", "r")
-            cardNumber = credentialRead.readline()
-            currentPIN = credentialRead.readline()
-            credentialRead.close()
             changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
         elif userInput == "3":  # 3. Withdraw amount of money
-            credentialRead = open("cardNumber.txt", "r")
-            cardNumber = credentialRead.readline()
-            credentialRead.close()
             money = input("Enter amount: ")
             withdrawFun(money, cardNumber, "cardNumber.txt")
 
         elif userInput == "4":  # 4. Deposit amount of money
-            credentialRead = open("cardNumber.txt", "r")
-            cardNumber = credentialRead.readline()
-            credentialRead.close()
             nMoney = input("Enter amount: ")
             depositFun(nMoney, cardNumber, "cardNumber.txt")
 
         elif userInput == "5":  # 5. Pay bills
-            print("INSERT CODE HERE")  # INSERT CODE HERE!
+            nMoney = 0
+            payBillFun("cardNumber.txt", nMoney, cardNumber)
+
         elif userInput == "6":  # 6. View the last transactions
-            print("INSERT CODE HERE")  # INSERT CODE HERE!
+            viewTransactionsFun(0)
+
         elif userInput == "7":  # 7. Terminate a program
-            print("Thank you, come again!")
+            terminateFun("transactions.txt", balance, cardNumber)
             valid = True
+
         else:  # invalid input
             print("Incorrect input! Try again.")
-
 
 
 def changePINFun(currentPIN, cardNumber, file):
@@ -199,6 +198,17 @@ def depositFun(nMoney, cardNumber, file):
     credentials.write(email)
     credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
     credentials.close()
+    #  add transaction to log
+    localtime = time.localtime()
+    timeNow = time.strftime("%I:%M:%S %p", localtime)
+    transactionRead = open("transactions.txt", "r")
+    oldLines = transactionRead.readlines()
+    transactionWrite = open("transactions.txt", "w")
+    for i in range(len(oldLines)):
+        transactionWrite.write(oldLines[i])
+    transactionWrite.write(("[" + timeNow + "] +" + nMoney + "\n"))
+    transactionWrite.close()
+
     time.sleep(2)
     menu()
 
@@ -227,7 +237,84 @@ def withdrawFun(money, cardNumber, file):
     credentials.write(email)
     credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
     credentials.close()
+    #  add transaction to log
+    localtime = time.localtime()
+    timeNow = time.strftime("%I:%M:%S %p", localtime)
+    transactionRead = open("transactions.txt", "r")
+    oldLines = transactionRead.readlines()
+    transactionWrite = open("transactions.txt", "w")
+    for i in range(len(oldLines)):
+        transactionWrite.write(oldLines[i])
+    transactionWrite.write(("[" + timeNow + "] -" + money + "\n"))
+    transactionWrite.close()
+
     time.sleep(2)
     menu()
+
+
+def viewTransactionsFun(cardNumber):
+    transactionRead = open("transactions.txt", "r")
+    transactions = transactionRead.readlines()
+    for i in range(len(transactions)):
+        print(transactions[i])
+    time.sleep(2)
+    menu()
+
+
+def payBillFun(file, nMoney, cardNumber):
+    billName = input("Enter the bill name:\n")
+    #  validates bill Number
+    billNumber = input("Enter the bill account number:\n")
+    while not notSame(billNumber):
+        if not notSame(billNumber):
+            print("Invalid Input, please enter 4 unique numbers")
+        billNumber = input("Enter the bill account number:\n")
+
+    nMoney = input("Enter the amount of money in the bill:\n")
+    credentialRead = open(file, "r")
+    pinNum = ""
+    for x in range(2):
+        pinNum = credentialRead.readline()
+    email = credentialRead.readline()
+    balance = credentialRead.readline()
+    balance.rstrip()
+    balance = float(balance)  # Switches from a string to a float
+    valid = False
+    while not valid:
+        if float(nMoney) > balance:  # Checks if the withdraw amount is higher than the current balance
+            print("Your balance is too low to withdraw that amount\n")
+            nMoney = input("Enter the amount of money in the bill:\n")
+        else:
+            balance -= float(nMoney)  # Withdraws from the current balance
+            valid = True
+    credentialRead.close()
+#  add transaction to log
+    credentials = open(file, "w")
+    credentials.write(cardNumber)
+    credentials.write(pinNum)
+    credentials.write(email)
+    credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
+    credentials.close()
+    localtime = time.localtime()
+    timeNow = time.strftime("%I:%M:%S %p", localtime)
+    transactionRead = open("transactions.txt", "r")
+    oldLines = transactionRead.readlines()
+    transactionWrite = open("transactions.txt", "w")
+    for i in range(len(oldLines)):
+        transactionWrite.write(oldLines[i])
+    transactionWrite.write(("[" + timeNow + "] -" + nMoney + " to " + billName + " with bill number: " + billNumber + "\n"))
+    transactionWrite.close()
+
+    time.sleep(2)
+    menu()
+
+
+def terminateFun(file, nMoney, cardNumber):
+    transactionRead = open(file, "r")
+    transactions = transactionRead.readlines()
+    lastTransaction = transactions[len(transactions) - 1]
+    print("This is you last Transaction:\n\n" + lastTransaction)
+    print("Thank you, come again!")
+
 
 main()
