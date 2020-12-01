@@ -151,7 +151,7 @@ def menu():  # NOT DONE YET
 
         elif userInput == "7":  # 7. Terminate a program
             terminateFun("transactions.txt", balance, cardNumber)
-            valid = True
+            break  # Exits from the loop
 
         else:  # invalid input
             print("Incorrect input! Try again.")
