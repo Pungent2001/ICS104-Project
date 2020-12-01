@@ -6,3 +6,9 @@
 [02:19:52 PM] +0.45
 [02:49:47 PM] -40 to Cypherwith bill number: 1123
 [02:57:36 PM] -3899 to Poop INC with bill number: 1283
+[03:04:49 PM] +250
+[03:05:44 PM] -250 to ahmad with bill number: 0987
+[03:06:26 PM] +5000
+[03:08:13 PM] -5000 to test with bill number: 0987
+[03:08:46 PM] +250
+[03:09:17 PM] -50 to msm with bill number: 4321
