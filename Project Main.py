@@ -135,12 +135,25 @@ def menu():  # NOT DONE YET
             changePINFun(currentPIN, cardNumber, "cardNumber.txt")
 
         elif userInput == "3":  # 3. Withdraw amount of money
-            money = input("Enter amount: ")
-            withdrawFun(money, cardNumber, "cardNumber.txt")
+            valid = False
+            while not valid:
+                money = input("Enter amount: ")
+                if money.isalpha() or float(money) < 0:
+                    print("Invalid input")
+                else:
+                    valid = True
+                    withdrawFun(money, cardNumber, "cardNumber.txt")
 
         elif userInput == "4":  # 4. Deposit amount of money
-            nMoney = input("Enter amount: ")
-            depositFun(nMoney, cardNumber, "cardNumber.txt")
+            valid = False
+            while not valid:
+                nMoney = input("Enter amount: ")
+                if nMoney.isalpha() or float(nMoney) < 0:
+                    print("Invalid input")
+                else:
+                    valid = True
+                    depositFun(nMoney, cardNumber, "cardNumber.txt")
+
 
         elif userInput == "5":  # 5. Pay bills
             nMoney = 0
@@ -276,46 +289,54 @@ def payBillFun(file, nMoney, cardNumber):
             print("Invalid Input, please enter 4 unique numbers")
         billNumber = input("Enter the bill account number:\n")
 
-    nMoney = input("Enter the amount of money in the bill:\n")
-    credentialRead = open(file, "r")
-    pinNum = ""
-    for x in range(2):
-        pinNum = credentialRead.readline()
-    email = credentialRead.readline()
-    balance = credentialRead.readline()
-    balance.rstrip()
-    balance = float(balance)  # Switches from a string to a float
     valid = False
     while not valid:
-        if float(nMoney) > balance:  # Checks if the withdraw amount is higher than the current balance
-            print("Your balance is too low to withdraw that amount\n")
-            nMoney = input("Enter the amount of money in the bill:\n")
+        nMoney = input("Enter the amount of money in the bill:\n")
+        if nMoney.isalpha() or float(nMoney) < 0:
+            print("Invalid input")
         else:
-            balance -= float(nMoney)  # Withdraws from the current balance
+            credentialRead = open(file, "r")
+            pinNum = ""
+            for x in range(2):
+                pinNum = credentialRead.readline()
+            email = credentialRead.readline()
+            balance = credentialRead.readline()
+            balance.rstrip()
+            balance = float(balance)  # Switches from a string to a float
+            valid = False
+            while not valid:
+                if float(nMoney) > balance:  # Checks if the withdraw amount is higher than the current balance
+                    print("Your balance is too low to withdraw that amount\n")
+                    nMoney = input("Enter the amount of money in the bill:\n")
+                else:
+                    balance -= float(nMoney)  # Withdraws from the current balance
+                    valid = True
+            credentialRead.close()
+            credentials = open(file, "w")
+            credentials.write(cardNumber)
+            credentials.write(pinNum)
+            credentials.write(email)
+            credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
+            credentials.close()
+            #  add transaction to log
+            localtime = time.localtime()
+            timeNow = time.strftime("%I:%M:%S %p", localtime)
+            lastTransactionWrite = open("lastTransaction.txt", "w")
+            lastTransactionWrite.write(
+                ("[" + timeNow + "] -" + nMoney + " to " + billName + " with bill number: " + billNumber + "\n"))
+            lastTransactionWrite.close()
+            lastTransactionRead = open("lastTransaction.txt", "r")
+            line = lastTransactionRead.readline()
+            lastTransactionRead.close()
+            transactionsFile = open("transactions.txt", "a")  # Opens in append mode to add the last transaction into
+            # the transaction file
+            transactionsFile.write(line)
+            transactionsFile.close()
             valid = True
-    credentialRead.close()
-    credentials = open(file, "w")
-    credentials.write(cardNumber)
-    credentials.write(pinNum)
-    credentials.write(email)
-    credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
-    credentials.close()
-    #  add transaction to log
-    localtime = time.localtime()
-    timeNow = time.strftime("%I:%M:%S %p", localtime)
-    lastTransactionWrite = open("lastTransaction.txt", "w")
-    lastTransactionWrite.write(("[" + timeNow + "] -" + nMoney + " to " + billName + " with bill number: " + billNumber + "\n"))
-    lastTransactionWrite.close()
-    lastTransactionRead = open("lastTransaction.txt", "r")
-    line = lastTransactionRead.readline()
-    lastTransactionRead.close()
-    transactionsFile = open("transactions.txt", "a")  # Opens in append mode to add the last transaction into
-    # the transaction file
-    transactionsFile.write(line)
-    transactionsFile.close()
-
     time.sleep(2)
     menu()
+
+
 
 
 def terminateFun(file, nMoney, cardNumber):

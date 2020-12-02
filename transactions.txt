@@ -18,3 +18,15 @@
 [04:39:32 PM] -25 to mohammedi with bill number: 5678
 [04:39:59 PM] -25
 [04:46:04 PM] +300
+[05:34:10 PM] --300
+[05:49:48 PM] +100
+[05:54:50 PM] -50
+[05:55:07 PM] +25
+[06:31:32 PM] -75 to mohammed with bill number: 1234
+[06:40:35 PM] --100.5 to msm with bill number: 1234
+[06:42:06 PM] --100 to msm with bill number: 1234
+[06:45:40 PM] -100.5 to msm with bill number: 1234
+[06:50:35 PM] +100.5
+[06:50:53 PM] -100.5
+[06:51:14 PM] +100
+[06:52:21 PM] -100
