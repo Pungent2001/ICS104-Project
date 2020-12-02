@@ -319,11 +319,16 @@ def payBillFun(file, nMoney, cardNumber):
 
 
 def terminateFun(file, nMoney, cardNumber):
-    transactionRead = open(file, "r")
-    transactions = transactionRead.readlines()
-    lastTransaction = transactions[len(transactions) - 1]
-    print("This is you last Transaction:\n\n" + lastTransaction)
+    lastTransaction = open("lastTransaction.txt", "r")
+    line = lastTransaction.readline()
+    if line == "":
+        print("No transactions were made during this session.")
+    else:
+        print("This is you last Transaction:\n\n" + line)
     print("Thank you, come again!")
 
 
+lastTransaction = open("lastTransaction.txt", "w")
+lastTransaction.write("")
+lastTransaction.close()
 main()
