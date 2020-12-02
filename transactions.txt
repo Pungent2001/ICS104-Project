@@ -12,3 +12,8 @@
 [03:08:13 PM] -5000 to test with bill number: 0987
 [03:08:46 PM] +250
 [03:09:17 PM] -50 to msm with bill number: 4321
+[04:19:54 PM] +30
+[04:26:54 PM] +20
+[04:39:00 PM] +20
+[04:39:32 PM] -25 to mohammedi with bill number: 5678
+[04:39:59 PM] -25

@@ -201,13 +201,16 @@ def depositFun(nMoney, cardNumber, file):
     #  add transaction to log
     localtime = time.localtime()
     timeNow = time.strftime("%I:%M:%S %p", localtime)
-    transactionRead = open("transactions.txt", "r")
-    oldLines = transactionRead.readlines()
-    transactionWrite = open("transactions.txt", "w")
-    for i in range(len(oldLines)):
-        transactionWrite.write(oldLines[i])
-    transactionWrite.write(("[" + timeNow + "] +" + nMoney + "\n"))
-    transactionWrite.close()
+    lastTransactionWrite = open("lastTransaction.txt", "w")  # Opens the last transaction file as an empty file
+    lastTransactionWrite.write(("[" + timeNow + "] +" + nMoney + "\n"))  # formats the line, like adding time and such
+    lastTransactionWrite.close()
+    lastTransactionRead = open("lastTransaction.txt", "r")  # Opens the file again but in read mode to get the line
+    line = lastTransactionRead.readline()
+    lastTransactionRead.close()
+    transactionsFile = open("transactions.txt", "a")  # Opens in append mode to add the last transaction into
+    # the transaction file
+    transactionsFile.write(line)
+    transactionsFile.close()
 
     time.sleep(2)
     menu()
@@ -240,13 +243,16 @@ def withdrawFun(money, cardNumber, file):
     #  add transaction to log
     localtime = time.localtime()
     timeNow = time.strftime("%I:%M:%S %p", localtime)
-    transactionRead = open("transactions.txt", "r")
-    oldLines = transactionRead.readlines()
-    transactionWrite = open("transactions.txt", "w")
-    for i in range(len(oldLines)):
-        transactionWrite.write(oldLines[i])
-    transactionWrite.write(("[" + timeNow + "] -" + money + "\n"))
-    transactionWrite.close()
+    lastTransactionWrite = open("lastTransaction.txt", "w")  # Opens the last transaction file as an empty file
+    lastTransactionWrite.write(("[" + timeNow + "] -" + money + "\n"))  # formats the line, like adding time and such
+    lastTransactionWrite.close()
+    lastTransactionRead = open("lastTransaction.txt", "r")  # Opens the file again but in read mode to get the line
+    line = lastTransactionRead.readline()
+    lastTransactionRead.close()
+    transactionsFile = open("transactions.txt", "a")  # Opens in append mode to add the last transaction into
+    # the transaction file
+    transactionsFile.write(line)
+    transactionsFile.close()
 
     time.sleep(2)
     menu()
@@ -288,22 +294,25 @@ def payBillFun(file, nMoney, cardNumber):
             balance -= float(nMoney)  # Withdraws from the current balance
             valid = True
     credentialRead.close()
-#  add transaction to log
     credentials = open(file, "w")
     credentials.write(cardNumber)
     credentials.write(pinNum)
     credentials.write(email)
     credentials.write("%.2f" % balance)  # Switches balance back to a string and formats it to 2 decimals
     credentials.close()
+    #  add transaction to log
     localtime = time.localtime()
     timeNow = time.strftime("%I:%M:%S %p", localtime)
-    transactionRead = open("transactions.txt", "r")
-    oldLines = transactionRead.readlines()
-    transactionWrite = open("transactions.txt", "w")
-    for i in range(len(oldLines)):
-        transactionWrite.write(oldLines[i])
-    transactionWrite.write(("[" + timeNow + "] -" + nMoney + " to " + billName + " with bill number: " + billNumber + "\n"))
-    transactionWrite.close()
+    lastTransactionWrite = open("lastTransaction.txt", "w")
+    lastTransactionWrite.write(("[" + timeNow + "] -" + nMoney + " to " + billName + " with bill number: " + billNumber + "\n"))
+    lastTransactionWrite.close()
+    lastTransactionRead = open("lastTransaction.txt", "r")
+    line = lastTransactionRead.readline()
+    lastTransactionRead.close()
+    transactionsFile = open("transactions.txt", "a")  # Opens in append mode to add the last transaction into
+    # the transaction file
+    transactionsFile.write(line)
+    transactionsFile.close()
 
     time.sleep(2)
     menu()
