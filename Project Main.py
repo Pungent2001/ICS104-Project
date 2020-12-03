@@ -104,63 +104,66 @@ def show(file):
     print("Email Address: " + credentials.readline())
     print("Current Balance: " + credentials.readline())
     credentials.close()
-    time.sleep(2)  # Waits 2 seconds
-    menu()
 
 
 def menu():  # NOT DONE YET
-    print("\nBank Account Program")
-    print("=================================")
-    print("1. Show account information")
-    print("2. Change PIN number")
-    print("3. Withdraw amount of money")
-    print("4. Deposit amount of money")
-    print("5. Pay bills")
-    print("6. View the last transactions")
-    print("7. Terminate a program")
-    print("=================================")
-    credentialRead = open("cardNumber.txt", "r")
-    cardNumber = credentialRead.readline()
-    currentPIN = credentialRead.readline()
-    email = credentialRead.readline()
-    balance = credentialRead.readline()
-    credentialRead.close()
     valid = False
     while not valid:
+        print("\nBank Account Program")
+        print("=================================")
+        print("1. Show account information")
+        print("2. Change PIN number")
+        print("3. Withdraw amount of money")
+        print("4. Deposit amount of money")
+        print("5. Pay bills")
+        print("6. View the last transactions")
+        print("7. Terminate a program")
+        print("=================================")
+        credentialRead = open("cardNumber.txt", "r")
+        cardNumber = credentialRead.readline()
+        currentPIN = credentialRead.readline()
+        email = credentialRead.readline()
+        balance = credentialRead.readline()
+        credentialRead.close()
         userInput = input("Enter your feature: ")
         if userInput == "1":
             show("cardNumber.txt")  # 1. Show account information
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "2":  # 2. Change PIN number
             changePINFun(currentPIN, cardNumber, "cardNumber.txt")
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "3":  # 3. Withdraw amount of money
-            valid = False
-            while not valid:
+            flag = False
+            while not flag:
                 money = input("Enter amount: ")
                 if money.isalpha() or float(money) < 0:
                     print("Invalid input")
                 else:
-                    valid = True
+                    flag = True
                     withdrawFun(money, cardNumber, "cardNumber.txt")
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "4":  # 4. Deposit amount of money
-            valid = False
-            while not valid:
+            flag = False
+            while not flag:
                 nMoney = input("Enter amount: ")
                 if nMoney.isalpha() or float(nMoney) < 0:
                     print("Invalid input")
                 else:
-                    valid = True
+                    flag = True
                     depositFun(nMoney, cardNumber, "cardNumber.txt")
-
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "5":  # 5. Pay bills
             nMoney = 0
             payBillFun("cardNumber.txt", nMoney, cardNumber)
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "6":  # 6. View the last transactions
             viewTransactionsFun(0)
+            time.sleep(2)  # Waits 2 seconds
 
         elif userInput == "7":  # 7. Terminate a program
             terminateFun("transactions.txt", balance, cardNumber)
@@ -190,8 +193,6 @@ def changePINFun(currentPIN, cardNumber, file):
             valid = True
         else:
             print("Invalid Input, please enter 4 unique numbers")
-    time.sleep(2)
-    menu()
 
 
 def depositFun(nMoney, cardNumber, file):
@@ -224,9 +225,6 @@ def depositFun(nMoney, cardNumber, file):
     # the transaction file
     transactionsFile.write(line)
     transactionsFile.close()
-
-    time.sleep(2)
-    menu()
 
 
 def withdrawFun(money, cardNumber, file):
@@ -267,8 +265,6 @@ def withdrawFun(money, cardNumber, file):
     transactionsFile.write(line)
     transactionsFile.close()
 
-    time.sleep(2)
-    menu()
 
 
 def viewTransactionsFun(cardNumber):
@@ -276,8 +272,6 @@ def viewTransactionsFun(cardNumber):
     transactions = transactionRead.readlines()
     for i in range(len(transactions)):
         print(transactions[i])
-    time.sleep(2)
-    menu()
 
 
 def payBillFun(file, nMoney, cardNumber):
@@ -333,8 +327,6 @@ def payBillFun(file, nMoney, cardNumber):
             transactionsFile.write(line)
             transactionsFile.close()
             valid = True
-    time.sleep(2)
-    menu()
 
 
 
