@@ -82,7 +82,7 @@ def login():
             print("Incorrect Credentials, please try again")
     credentials.close()
     # validates user pin to log in
-    credentials = open("cardNumber.txt", "r")  # *** NOTE: REOPENED THE FILE TO FIX THE RANGE ERROR ***
+    credentials = open("cardNumber.txt", "r")
     print("Correct Card number")
     valid = False
     pinNum = credentials.readlines()[1]
@@ -93,10 +93,9 @@ def login():
         else:
             print("Incorrect Credentials, please try again")
     print("Correct PIN")
-    return cardNum, pinNum  # returns the card number and the PIN number
 
 
-def show(file):
+def show(file):  # Shows the account info
     credentials = open(file, "r")
     print("\nAccount info:\n")
     print("Card Number: " + credentials.readline())
@@ -106,7 +105,7 @@ def show(file):
     credentials.close()
 
 
-def menu():  # NOT DONE YET
+def menu():
     valid = False
     while not valid:
         print("\nBank Account Program")
@@ -269,7 +268,7 @@ def withdrawFun(money, cardNumber, file):
 
 def viewTransactionsFun(cardNumber):
     transactionRead = open("transactions.txt", "r")
-    transactions = transactionRead.readlines()
+    transactions = transactionRead.readlines()  # Reads out all of the transactions
     for i in range(len(transactions)):
         print(transactions[i])
 
